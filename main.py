@@ -3,6 +3,7 @@ import logging
 from rich.logging import RichHandler
 from logging.handlers import RotatingFileHandler
 from utils import *
+from http_gen import *
 
 FORMAT = "%(asctime)s %(levelname)s %(name)s: %(message)s"
 
@@ -32,7 +33,7 @@ cwd = Path.cwd()
 detected_categories = []
 
 for first_layer in sorted([p for p in cwd.iterdir() if p.is_dir()]):
-    if first_layer.name in [".git", "generated"]:
+    if first_layer.name in [".git", "generated", "debug"]:
         continue
 
     second_layer = next((p for p in first_layer.iterdir() if p.is_dir()), None)
@@ -41,4 +42,5 @@ for first_layer in sorted([p for p in cwd.iterdir() if p.is_dir()]):
         log.info(f"Added {first_layer.name} as a category.")
         detected_categories.append(Category(first_layer.name, first_layer, second_layer))
 
-
+generated_p = cwd / "generated"
+generated_p.mkdir(parents=True, exist_ok=True)
