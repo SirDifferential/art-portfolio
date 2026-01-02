@@ -126,7 +126,7 @@ class IndexPage:
 """
         for c in categories:
             self.category_code += f"""
-      <a class="card" href="generated/{c.name}.html">
+      <a class="card" href="latest/{c.name}.html">
         <figure class="thumb">
           <img src="{dot_relative(cwd, c.thumbnail_p)}"/>
         </figure>
