@@ -25,7 +25,6 @@ logging.basicConfig(
 
 log = logging.getLogger("rich")
 
-IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tif", ".tiff", ".webp", ".heic", ".heif"}
 
 
 
@@ -33,7 +32,7 @@ cwd = Path.cwd()
 detected_categories = []
 
 for first_layer in sorted([p for p in cwd.iterdir() if p.is_dir()]):
-    if first_layer.name == ".git":
+    if first_layer.name in [".git", "generated"]:
         continue
 
     second_layer = next((p for p in first_layer.iterdir() if p.is_dir()), None)
