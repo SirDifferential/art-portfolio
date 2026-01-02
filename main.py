@@ -44,3 +44,13 @@ for first_layer in sorted([p for p in cwd.iterdir() if p.is_dir()]):
 
 generated_p = cwd / "generated"
 generated_p.mkdir(parents=True, exist_ok=True)
+
+
+index = IndexPage()
+index.set_categories(detected_categories, cwd)
+Path("index.html").write_text(index.get_content(), encoding="utf-8")
+
+for c in detected_categories:
+    page = CategoryPage(c, cwd)
+    p = generated_p / f"{c.name}.html"
+    p.write_text(page.get_content(), encoding="utf-8")

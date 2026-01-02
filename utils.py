@@ -29,6 +29,7 @@ class Category(DebugEasy):
         self.name = name
         self.first_layer_p = first_layer_p
         self.second_layer_p = second_layer_p
+        self.thumbnail_p = None
         self.art_pieces = []
 
         self._get_art()
@@ -47,6 +48,7 @@ class Category(DebugEasy):
                 if p.name in name_to_key_mapping:
                     k = name_to_key_mapping[p.name]
                     thumbnail_mapping[k] = p
+                    self.thumbnail_p = p
                     log.debug(f"Associated \"{self.name}/{p.name}\" art piece.")
                 else:
                     log.warning(f"WARNING: \"{self.name}/{p.name}\" thumbnail was not matched with anything.")
@@ -58,3 +60,9 @@ class Category(DebugEasy):
                 self.art_pieces.append(ArtPiece(k, thumbnail_mapping[k]))
 
 
+def dot_relative(parent: Path, child: Path) -> str:
+    rel = child.relative_to(parent)  # raises ValueError if not a descendant
+    return "." if rel == Path(".") else f"./{rel.as_posix()}"
+
+def no_dot_relative(parent: Path, child: Path) -> str:
+    return dot_relative(parent, child)[1:]
